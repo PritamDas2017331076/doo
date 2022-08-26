@@ -37,6 +37,10 @@ export default function ProductInfo(props) {
     axios.patch(`http://localhost:5000/users/addcart/${localStorage.getItem('id')}`,obj)
     .then(res=>{
       console.log('add to cart success',res.data)
+      console.log('cart list',res.data.cart)
+      const data=JSON.stringify(res.data.cart)
+      localStorage.setItem('items',data);
+      console.log('items',localStorage.getItem('items'))
 
     })
     .catch(res=>{

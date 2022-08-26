@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 ///log out navigation
-function LoginNavigation() {
+function Navigation() {
   const navigate = useNavigate()
   const logout = (e)=>{
 
@@ -42,6 +42,11 @@ function LoginNavigation() {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link" to={'/cart'}>
+                    cart
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <button className="nav-link" onClick={logout}>
                     Logout
                   </button>
@@ -55,4 +60,4 @@ function LoginNavigation() {
     
   )
 }
-export default LoginNavigation
+export default Navigation

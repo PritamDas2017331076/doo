@@ -14,11 +14,12 @@ import Cart from './pages/Cart'
 function App() {
   const [cookie,setCookie] = useCookies('user')
   const [loggedin,setloggedin] = useState(0)
+  console.log(localStorage.getItem('token'))
   
   return (
     <Router>
       <div className="App">
-        {localStorage.getItem('token')?(<Navigation/>):<LoginNavigation/>}
+        {localStorage.getItem('token')?<Navigation/>:<LoginNavigation/>}
         <div className="">
           <div className="">
             <Routes>

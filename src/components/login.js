@@ -23,8 +23,9 @@ export default function Login(){
         localStorage.setItem('token',res.data.token)
         console.log('res.data = ',res.data.userr._id)
         localStorage.setItem('id',res.data.userr._id)
+        localStorage.setItem('items',JSON.stringify(res.data.userr.cart))
         console.log('token',localStorage.getItem('token'))
-        navigate('/bank-info');
+        navigate('/home');
       })
       .catch(res=>{
         console.log('wrong username or password')

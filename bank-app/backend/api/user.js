@@ -95,6 +95,34 @@ router.patch('/:id', async(req, res) => {
     }
 })
 
+router.patch('/transaction/:id', async(req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        console.log(user)
+        let amount = user.amount
+        if (req.body.cost > amount) {
+            res.status(400).send('remove some product')
+            return
+        }
+        const chg = { amount: amount - req.body.cost }
+        const userr = await User.findByIdAndUpdate(req.params.id, chg, { new: true, runValidators: true })
+        if (!userr)
+            return res.status(404).send()
+        User.findOne({ user: 'ecomerce' }, async function(err, use) {
+            if (err) console.log('error', err)
+            else console.log('ise', use)
+            const chh = { amount: use.amount + req.body.cost }
+            const ecomerce = await User.findByIdAndUpdate(use._id, chh, { new: true, runValidators: true })
+            console.log(ecomerce)
+        })
+
+
+        res.status(200).send(userr)
+    } catch (e) {
+        res.status(500).send(e.message)
+    }
+})
+
 
 router.delete('/:id', async(req, res) => {
     try {

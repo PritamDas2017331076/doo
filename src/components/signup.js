@@ -1,10 +1,12 @@
 import React, { Component,useState } from 'react'
 import axios from 'axios'
+import { useNavigate} from 'react-router-dom';
 
 export default function SignUp(){
   const [user,setUser] = useState('')
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('') 
+  const navigate = useNavigate();
 
   const host = 'http://localhost:5000'
     const handleSubmit = (e)=>{
@@ -17,6 +19,11 @@ export default function SignUp(){
       axios.post(`${host}/users/add`,obj)
       .then((res)=>{
         console.log('res',res)
+        localStorage.setItem('token',res.data.token)
+        console.log('res.data = ',res.data.newUser._id)
+        localStorage.setItem('id',res.data.newUser._id)
+        console.log('token',localStorage.getItem('token'))
+        navigate('/bank-info');
       })
       .catch((res)=>{
         console.log(`user post error `,res)

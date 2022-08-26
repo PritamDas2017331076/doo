@@ -2,7 +2,7 @@ const { dblClick } = require('@testing-library/user-event/dist/click');
 const express = require('express')
 const router = express.Router();
 const User = require('../db/user')
-// const Userb = require('../../bank-app/backend/db/user')
+    // const Userb = require('../../bank-app/backend/db/user')
 const auth = require('../middleware/auth')
 
 router.use(express.json())
@@ -37,29 +37,29 @@ router.post('/add', async(req, res) => {
                 /* if (err) return res.redirect('/signupform') */
 
             if (user) {
-                console.log('This user is used',user)
-                ff=0
-            
+                console.log('This user is used', user)
+                ff = 0
+
             }
         })
-        if(ff===0)return;
+        if (ff === 0) return;
         User.findOne({ email: email }, function(err, user) {
             // console.log(user);
             // if (user) console.log('fine one lol')
-                /* if (err) return res.redirect('/signupform') */
+            /* if (err) return res.redirect('/signupform') */
 
             if (user) {
-                ff=0
-                // console.log('just stop it')
+                ff = 0
+                    // console.log('just stop it')
                 console.log('This email is used')
                 return
             }
         })
-        if(ff===0)return;
-    } catch(e) {
+        if (ff === 0) return;
+    } catch (e) {
         console.log('catched duplicate user')
-        console.log('error = ',e)
-        return 
+        console.log('error = ', e)
+        return
     }
     const newUser = new User({ user, email, accountno, address, mobile, password });
     console.log(newUser)
@@ -131,8 +131,16 @@ router.patch('/addcart/:id', async(req, res) => {
         console.log(e)
         res.status(400).send()
     }
+    let brr = arr.filter(ele => (ele.desc === req.body.desc))
+
+
     console.log(req.body)
-    arr.push(req.body)
+    if (brr.length == 0) arr.push(req.body)
+    else {
+        arr.forEach(ele => {
+            if (ele.desc === req.body.desc) ele.piece = req.body.piece
+        })
+    }
     const chg = { cart: arr }
 
 

@@ -2,15 +2,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const supplySchema = new Schema({
-    desc: {
-        type: String,
-        required: true
-    },
-    piece: {
-        type: Number,
-        required: true
-    },
-    user: {
+    list: [{
+        desc: {
+            type: String,
+            required: true
+        },
+        piece: {
+            type: Number,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true
+        }
+    }],
+    id: {
         type: String,
         required: true,
     },
