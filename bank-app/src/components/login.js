@@ -17,19 +17,19 @@ export default function Login(){
         user:user,
         password:password
       }
-      axios.post('http://localhost:5000/users/login',data)
+      axios.post('http://localhost:5001/users/login',data)
       .then(res=>{
         console.log('logged in')
-        localStorage.setItem('token',res.data.token)
+        localStorage.setItem('btoken',res.data.token)
         console.log('res.data = ',res.data.userr._id)
-        localStorage.setItem('id',res.data.userr._id)
-        localStorage.setItem('acc',res.data.userr.accountno)
-        localStorage.setItem('address',res.data.userr.address)
-        localStorage.setItem('mobile',res.data.userr.mobile)
-        localStorage.setItem('items',JSON.stringify(res.data.userr.cart))
-        localStorage.setItem('user',res.data.userr.user)
-        console.log('token',localStorage.getItem('token'),localStorage.getItem('user'))
-        window.location.href='/home';
+        localStorage.setItem('bid',res.data.userr._id)
+        localStorage.setItem('bamount',res.data.userr.amount)
+        localStorage.setItem('bemail',res.data.userr.email)
+        localStorage.setItem('buser',res.data.userr.user)
+        
+        console.log('token',localStorage.getItem('token'))
+        window.location.href='/info';
+        navigate('/home');
       })
       .catch(res=>{
         console.log('wrong username or password')

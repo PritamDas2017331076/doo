@@ -126,6 +126,7 @@ router.patch('/addcart/:id', async(req, res) => {
         if (!user)
             return res.status(404).send()
         arr = user.cart
+        arr = arr.filter(ele => (ele.piece !== 0))
         console.log('arr', arr)
     } catch (e) {
         console.log(e)
@@ -141,6 +142,7 @@ router.patch('/addcart/:id', async(req, res) => {
             if (ele.desc === req.body.desc) ele.piece = req.body.piece
         })
     }
+    arr = arr.filter(ele => (ele.piece !== 0))
     const chg = { cart: arr }
 
 
@@ -154,8 +156,6 @@ router.patch('/addcart/:id', async(req, res) => {
         res.status(500).send(e.message)
     }
 })
-
-
 router.delete('/:id', async(req, res) => {
     try {
         const userr = await User.findByIdAndDelete(req.params.id)

@@ -27,16 +27,74 @@ export default function Cart() {
   const submit = ()=>{
 
     const id=localStorage.getItem('id')
+    const acc=localStorage.getItem('acc')
     const chg={
       cost:updateCost()
     }
-    axios.patch(`http://localhost:5001/users/transaction/${id}`,chg)
+    axios.patch(`http://localhost:5001/users/transaction/${acc}`,chg)
       .then(res=>{
         console.log('successfully updated',res.data)
+        const chh={ 
+          cart:[]
+        }
+        axios.patch(`http://localhost:5000/users/${id}`,chh)
+          .then(res=>{
+            console.log('successfully updated',res.data,'id',id)
+            const oj=[]
+            localStorage.setItem('items',JSON.stringify(oj))
+          })
+          .catch(err=>{
+            console.log('error',err)
+          })
+          const obj= {
+            list: items,
+            id: id,
+            mobile: localStorage.getItem('mobile'),
+            address: localStorage.getItem('address')
+          }
+      
+          axios.post(`http://localhost:5000/supplies/add`,obj)
+            .then(res=>{
+              console.log('successfully added',res.data)
+              window.location.href='/cart'
+            })
+            .catch(err=>{
+              console.log('error',err)
+            })
+    
       })
       .catch(err=>{
         console.log('error',err)
+        alert('remove some product')
       })
+    // const chh={ 
+    //   cart:[]
+    // }
+    // axios.patch(`http://localhost:5000/users/${id}`,chh)
+    //   .then(res=>{
+    //     console.log('successfully updated',res.data,'id',id)
+    //     const oj=[]
+    //     localStorage.setItem('items',JSON.stringify(oj))
+    //   })
+    //   .catch(err=>{
+    //     console.log('error',err)
+    //   })
+
+    // const obj= {
+    //   list: items,
+    //   id: id,
+    //   mobile: localStorage.getItem('mobile'),
+    //   address: localStorage.getItem('address')
+    // }
+
+    // axios.post(`http://localhost:5000/supplies/add`,obj)
+    //   .then(res=>{
+    //     console.log('successfully added',res.data)
+    //   })
+    //   .catch(err=>{
+    //     console.log('error',err)
+    //   })
+    //window.location.href='/cart'
 
 
   }

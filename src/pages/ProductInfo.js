@@ -41,6 +41,7 @@ export default function ProductInfo(props) {
       const data=JSON.stringify(res.data.cart)
       localStorage.setItem('items',data);
       console.log('items',localStorage.getItem('items'))
+      window.location.href='/home'
 
     })
     .catch(res=>{

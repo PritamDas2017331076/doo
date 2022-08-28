@@ -21,7 +21,7 @@ const userSchema = new Schema({
     accountno: {
         type: String,
         required: true,
-        unique: true,
+        // unique: true,
     },
     address: {
         type: String,
@@ -35,6 +35,20 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    cart: [{
+        desc: {
+            type: String,
+            required: true
+        },
+        piece: {
+            type: Number,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true
+        }
+    }],
     tokens: [{
         token: {
             type: String,
@@ -56,8 +70,16 @@ userSchema.methods.generateAuthToken = async function() {
     const userr = this
     const token = await jwt.sign({ _id: userr._id.toString() }, 'thisisnewuser')
     userr.tokens = userr.tokens.concat({ token });
-    await userr.save()
+    console.log('token', token)
+
+    console.log("before save", userr)
+
+    await userr.save();
+    console.log("after save", userr)
+
+    // console.log('generateAUthToken :',userr)
     return token;
+
 }
 
 
@@ -69,6 +91,7 @@ userSchema.statics.findByCredentials = async(user, password) => {
         if (!userr) {
             return 'user not found'
         }
+        console.log('userr', userr)
         const isMatch = await bcrypt.compare(password, userr.password)
         if (!isMatch) {
             return 'pass not matched'
@@ -84,6 +107,7 @@ userSchema.pre('save', async function(next) {
     if (Userr.isModified('password')) {
         Userr.password = await bcrypt.hash(Userr.password, 8);
     }
+    console.log('came to pre', Userr)
     next();
 })
 

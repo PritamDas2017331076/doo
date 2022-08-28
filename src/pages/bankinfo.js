@@ -18,7 +18,10 @@ export default function Bankinfo() {
       axios.patch(`http://localhost:5000/users/${localStorage.getItem('id')}`,data,)
       .then(res=>{
         console.log('bank patch success',res.data)
+        localStorage.setItem('acc',bankId)
         localStorage.setItem('bank',true)
+        localStorage.setItem('address',address)
+        localStorage.setItem('mobile',phone)
       })
       .catch(res=>{
         console.log('bank patch failed',res.data)

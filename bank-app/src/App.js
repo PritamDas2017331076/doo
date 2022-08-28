@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState} from 'react'
 
+import './App.css'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import Login from './components/login'
+import SignUp from './components/signup'
+import LoginNavigation from './components/loginNavigation'
+import Navigation from './components/navigation'
+import {useCookies,removeCookie,Cookies} from 'react-cookie'
+import Homepage from './components/info'
+import Update from './components/Update'
 function App() {
+  const [cookie,setCookie] = useCookies('user')
+  const [loggedin,setloggedin] = useState(0)
+  console.log(localStorage.getItem('token'))
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <div className="App">
+        {localStorage.getItem('btoken')?<Navigation/>:<LoginNavigation/>}
+        <div className="">
+          <div className="">
+            <Routes>
+              <Route exact path="/" element={<Login />} />
+              <Route path="/sign-in" element={<Login />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path = "/info" element={<Homepage/>} />
+              <Route path = "/update" element={<Update/>} />
+            </Routes>
+          </div>
+        </div>
+      </div>
+      
+    </Router>
+  )
 }
-
-export default App;
+export default App

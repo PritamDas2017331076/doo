@@ -6,6 +6,7 @@ import Login from './components/login'
 import SignUp from './components/signup'
 import LoginNavigation from './components/loginNavigation'
 import Navigation from './components/navigation'
+import Supply from './components/Supply'
 import {useCookies,removeCookie,Cookies} from 'react-cookie'
 import Homepage from './pages/homepage'
 import Bankinfo from './pages/bankinfo'
@@ -30,6 +31,7 @@ function App() {
               <Route path = "/bank-info" element = {<Bankinfo/>}/>
               <Route path = '/product-info' element = {<ProductInfo/>}/>  
               <Route path = '/cart' element={<Cart/>}/>
+              <Route path = '/supply' element={<Supply/>}/>
             </Routes>
           </div>
         </div>

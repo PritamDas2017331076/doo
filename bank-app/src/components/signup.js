@@ -8,23 +8,25 @@ export default function SignUp(){
   const [password,setPassword] = useState('') 
   const navigate = useNavigate();
 
-  const host = 'http://localhost:5000'
+  const host = 'http://localhost:5001'
     const handleSubmit = (e)=>{
       e.preventDefault()
       const obj = {
         user:user,
         email:email,
-        password:password
+        password:password,
       }
       axios.post(`${host}/users/add`,obj)
       .then((res)=>{
         console.log('res',res)
-        localStorage.setItem('token',res.data.token)
+        localStorage.setItem('btoken',res.data.token)
         console.log('res.data = ',res.data.newUser._id)
-        localStorage.setItem('id',res.data.newUser._id)
-        localStorage.setItem('user',res.data.newUser.user)
+        localStorage.setItem('bid',res.data.newUser._id)
+        localStorage.setItem('bamount',res.data.newUser.amount)
+        localStorage.setItem('bemail',res.data.newUser.email)
+        localStorage.setItem('buser',res.data.newUser.user)
         console.log('token',localStorage.getItem('token'))
-        navigate('/bank-info');
+        navigate('/info');
       })
       .catch((res)=>{
         console.log(`user post error `,res)

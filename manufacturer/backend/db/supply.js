@@ -3,11 +3,20 @@ const Schema = mongoose.Schema;
 
 const supplySchema = new Schema({
     list: [{
-        _id: false,
-        desc: String,
-        piece: Number
+        desc: {
+            type: String,
+            required: true
+        },
+        piece: {
+            type: Number,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true
+        }
     }],
-    user: {
+    id: {
         type: String,
         required: true,
     },

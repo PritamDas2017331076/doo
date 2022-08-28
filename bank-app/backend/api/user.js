@@ -9,6 +9,19 @@ router.route('/').get((req, res) => {
         .then(users => res.json(users))
         .catch(err => res.status(400).json('Error: ' + err));
 })
+router.route('/ha').get((req, res) => {
+    User.find({ user: req.query.user })
+        .then(users => {
+            users.forEach(async user => {
+                const id = user._id
+                const chg = { amount: user.amount * 1 + req.query.amount * 1 }
+                const userr = await User.findByIdAndUpdate(id, chg, { new: true, runValidators: true })
+                if (!userr) return res.status(404).send()
+                res.status(200).send(userr)
+            })
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+})
 
 router.get('/me', auth, async(req, res) => {
     try {
@@ -22,8 +35,9 @@ router.get('/me', auth, async(req, res) => {
 router.post('/add', async(req, res) => {
     const user = req.body.user;
     const email = req.body.email;
-    const amount = req.body.amount;
+    const amount = 0;
     const password = req.body.password;
+    let ff = 0
 
     try {
         User.findOne({ user: user }, function(err, user) {
@@ -34,12 +48,26 @@ router.post('/add', async(req, res) => {
             if (user) {
                 console.log('just stop it')
                 console.log('This user is used')
+                ff = 1
+                return
+            }
+        })
+        User.findOne({ email: email }, function(err, user) {
+            console.log(user);
+            if (user) console.log('fine one lol')
+                /* if (err) return res.redirect('/signupform') */
+
+            if (user) {
+                console.log('just stop it')
+                console.log('This user is used')
+                ff = 1
                 return
             }
         })
     } catch {
         console.log('user is used')
     }
+    if (ff === 1) return
 
     const newUser = new User({ user, email, amount, password });
 
@@ -86,10 +114,32 @@ router.get('/:id', async(req, res) => {
 
 router.patch('/:id', async(req, res) => {
     try {
-        const userr = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+        const user = await User.findById(req.params.id)
+        const chg = { amount: user.amount * 1 + req.body.amount * 1 }
+        const userr = await User.findByIdAndUpdate(req.params.id, chg, { new: true, runValidators: true })
         if (!userr)
             return res.status(404).send()
         res.status(200).send(userr)
+    } catch (e) {
+        res.status(500).send(e.message)
+    }
+})
+
+router.get('/amount', async(req, res) => {
+    console.log('hah')
+    console.log('query', req.query)
+    const userrr = req.query.user
+    const amount = req.query.amount
+    try {
+        User.findOne({ user: userrr }, async function(err, user) {
+            const id = user._id
+            const chg = { amount: user.amount + amount }
+            const userr = await User.findByIdAndUpdate(id, chg, { new: true, runValidators: true })
+            if (!userr) return res.status(404).send()
+            userr.save()
+            res.status(200).send(userr)
+        })
+
     } catch (e) {
         res.status(500).send(e.message)
     }

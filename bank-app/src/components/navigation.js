@@ -9,18 +9,16 @@ function Navigation() {
   const logout = (e)=>{
 
         e.preventDefault();
-        let token = localStorage.getItem('token')
-        axios.get('http://localhost:5000/users/logout',{
+        let token = localStorage.getItem('btoken')
+        axios.get('http://localhost:5001/users/logout',{
           headers:{
             'Authorization':token
           }
         })
         .then(res=>{
           console.log('logout ',res.data)
-          localStorage.setItem('token','')
-          localStorage.setItem('id','')
-          localStorage.setItem('acc','')
-          localStorage.setItem('user','')
+          localStorage.setItem('btoken','')
+          localStorage.setItem('bid','')
           window.location.href='/'
           navigate('/')
         })
@@ -46,15 +44,15 @@ function Navigation() {
                   </Link>
                 </li>
                 {
-                  localStorage.getItem('user')==='ecomerce'?
+                  localStorage.getItem('buser')!=='bank'?
                   <li className="nav-item">
-                  <Link className="nav-link" to={'/supply'}>
-                    supply
+                  <Link className="nav-link" to={'/info'}>
+                    info
                   </Link>
                   </li>
                   :<li className="nav-item">
-                  <Link className="nav-link" to={'/cart'}>
-                    cart
+                  <Link className="nav-link" to={'/update'}>
+                    update
                   </Link>
                   </li>
                 }

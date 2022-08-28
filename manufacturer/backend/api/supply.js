@@ -17,11 +17,11 @@ router.route('/').get((req, res) => {
 router.post('/add', async(req, res) => {
     console.log(req.body)
     const list = req.body.list,
-        user = req.body.user,
+        id = req.body.id,
         address = req.body.address,
         mobile = req.body.mobile;
     console.log(list)
-    const newSupply = new Supply({ list, user, address, mobile });
+    const newSupply = new Supply({ list, id, address, mobile });
 
     try {
         await newSupply.save();
